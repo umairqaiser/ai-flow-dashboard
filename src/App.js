@@ -1,14 +1,19 @@
-import React from 'react'
-import  logo from './assets/logoaiflowpro1.svg';
+import React, { useState } from 'react';
+import logo from './assets/logoaiflowpro1.svg';
 import applicationsIcon from './assets/applications.svg';
 import generalSearchIcon from './assets/general_search.svg';
 import emailIcon from './assets/email.svg';
 import chatIcon from './assets/chat.svg';
 import summarizeIcon from './assets/summarize.svg';
 import meetingsIcon from './assets/meetings.svg';
+import lookinggirl from './assets/lookinggirl1.svg';
+import lookinggirl1 from './assets/lookinggirl2.svg';
+import lookinggirl2 from './assets/lookinggirl3.svg';
+import check from './assets/check.svg';
+import record from './assets/record.svg';
+import arrow from './assets/arrow.svg';
 
-
-function Sidebar() {
+function Sidebar({ isVisible, toggleSidebar }) {
   function getMenuItems() {
     return [
       { name: 'Applications', icon: applicationsIcon, active: true },
@@ -29,52 +34,55 @@ function Sidebar() {
   }
 
   return (
-    <div className=" md:block w-64 bg-white border-r border-gray-200 p-4">
-      <img src={logo} alt="AI-FLOW PRO Logo" className="w-20 mb-4" />
-      <h2 className="text-xl font-bold text-blue-600 mb-4">AI-FLOW PRO</h2>
-      <p className="text-sm text-gray-500 mb-4">Start using your AI apps</p>
+    <div className={`fixed top-0 left-0 h-full ${isVisible ? 'w-60' : 'w-16'} md:w-20 lg:w-60 transition-all duration-300 border-r p-4 flex flex-col`}>
+      <button 
+        onClick={toggleSidebar} 
+        className={`absolute top-4 right-4 md:hidden text-gray-200 rounded-full p-1 ${isVisible ? '' : 'rotate-180'} transition-transform duration-300`}
+      >
+        <img src={arrow} alt="Toggle Sidebar" className="w-6 h-6" />
+      </button>
+      <img src={logo} alt="AI-FLOW PRO Logo" className={`transition-all duration-300 ${isVisible ? 'h-30' : 'w-10'} mb-1`} />
+      <h2 className={`text-xl font-bold text-blue-600 mb-4 ${isVisible ? 'block' : 'hidden'}`}>AI-FLOW PRO</h2>
+      <p className={`text-sm text-gray-500 mb-4 w-full ${isVisible ? 'block' : 'hidden'}`}>Start using your AI apps</p>
 
       {/* Menu Items */}
       <ul className="mb-6">
         {getMenuItems().map((item, index) => (
           <li
             key={index}
-            className={`flex items-center mb-3 p-2 cursor-pointer rounded-lg ${
+            className={`flex items-center mb-3 p-2 cursor-pointer rounded-lg transition-colors duration-200 ${
               item.active ? 'bg-gray-100 shadow' : ''
-            }`}
+            } hover:bg-gray-200 hover:text-white-500`}
           >
-            <img src={item.icon} alt={item.name} className="w-5 h-5 mr-3" />
-            <span className="text-gray-700">{item.name}</span>
+            <img src={item.icon} alt={item.name} className="w-12 h-12 mr-3" />
+            <span className={`text-gray-700 ${isVisible ? 'block' : 'hidden'}`}>{item.name}</span>
           </li>
         ))}
       </ul>
 
       {/* Team Storage */}
-      <h3 className="text-gray-600 font-semibold mb-2">Team Storage</h3>
+      <h3 className={`text-gray-600 font-semibold mb-2 ${isVisible ? 'block' : 'hidden'}`}>Team Storage</h3>
       <ul className="mb-6">
         {getTeamStorage().map((item, index) => (
           <li key={index} className="flex items-center mb-3">
-            <span className={`w-3 h-3 rounded-full ${item.color} mr-3`}></span>
-            <span className="text-gray-700">{item.name}</span>
+            <span className={`w-6 h-6 rounded-full ${item.color} mr-3`}></span>
+            <span className={`cursor-pointer rounded-lg transition-colors duration-200 ${isVisible ? 'block':'hidden'} hover:bg-gray-200 hover:text-white-500`}>{item.name}</span>
           </li>
         ))}
       </ul>
 
       {/* Settings and User */}
-      <div className="flex items-center mt-auto">
+      <div className="flex items-center -mb-5">
         <span className="mr-3">⚙️</span>
-        <span className="text-gray-700">Settings</span>
+        <span className={`text-gray-700 ${isVisible ? 'block' : 'hidden'}`}>Settings</span>
       </div>
-      <div className="flex items-center mt-4">
-        <span className="mr-3">👤</span>
-        <span className="text-gray-700">Kurnia Majid</span>
+      <div className="flex items-center -mb-3">
+        <span className="mr-4">👤</span>
+        <span className={`text-gray-700 ${isVisible ? 'block' : 'hidden'}`}>Kurnia Majid</span>
       </div>
     </div>
   );
 }
-
-
-
 
 function Main() {
   function getApplications() {
@@ -119,32 +127,44 @@ function Main() {
         usage: '2K Used',
         button: 'Start Using',
       },
+      {
+        title: 'Record Your Meeting',
+        description: 'Record your meeting and let your AI assistant transcribe the whole meeting. Send the transcript or summary to all attandees.',
+        icon: record,
+        users: '5 Friends using',
+        usage: '4K Used',
+        button: 'Start Using',
+      },
     ];
   }
-
+  
   return (
-    <div className=" md: block p-8 flex-1">
-      <h1 className="text-2xl font-semibold mb-4">
-        Welcome to <span className="text-blue-600">AI-FLOW PRO</span>
+    <div className="p-8 flex-1">
+      <h1 className="text-xl sm:text-2xl font-semibold mb-4 ml-16 md:ml-64">
+        Welcome to <span className="text-blue-600 ">AI-FLOW PRO</span>
       </h1>
-      <h2 className="text-lg font-medium mb-6">Applications</h2>
+      <h2 className="text-lg font-medium mb-6 ml-16 md:ml-64">Applications</h2>
 
       {/* Application Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ml-4 md:ml-20 lg:ml-64">
         {getApplications().map((app, index) => (
-          <div key={index} className="bg-white shadow rounded-lg p-4">
+          <div key={index} className="bg-white shadow rounded-lg p-4 relative">
             <div className="flex items-center mb-3">
               <img src={app.icon} alt={app.title} className="w-8 h-8 mr-3" />
               <h3 className="font-semibold text-gray-700">{app.title}</h3>
+              <img src={check} alt="check" className="w-5 h-5 absolute top-2 right-2" />
             </div>
             <p className="text-sm text-gray-500 mb-4">{app.description}</p>
-            <div className="flex items-center justify-between text-sm text-gray-400 mb-3">
-              <span>{app.users}</span>
-              <span>{app.usage}</span>
+            <div className="flex items-start justify-between text-sm text-gray-400 -ml-2">
+              <div className="flex space-x-2 mb-3">
+                <img src={lookinggirl} alt="User 1" className="w-6 h-6 rounded-full object-cover" />
+                <img src={lookinggirl1} alt="User 2" className="w-6 h-6 -ml-2 rounded-full object-cover" />
+                <img src={lookinggirl2} alt="User 3" className="w-6 h-6 -ml-2 rounded-full object-cover" />
+                <span>{app.users}</span>
+              </div>
+              <span className="bg-gray-200 text-gray-700 px-2 py-1 rounded-md border border-gray-300 font-semibold">{app.usage}</span>
             </div>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-lg w-full">
-              {app.button}
-            </button>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded-md border font-semibold">{app.button}</button>
           </div>
         ))}
       </div>
@@ -152,11 +172,13 @@ function Main() {
   );
 }
 
-
 function App() {
+  const [isVisible, setIsVisible] = useState(true);
+  const toggleSidebar = () => setIsVisible(!isVisible);
+
   return (
-    <div className="flex min-h-screen bg-gray-100">
-      <Sidebar />
+    <div className="min-h-screen bg-gray-100 text-gray-900 flex overflow-hidden">
+      <Sidebar isVisible={isVisible} toggleSidebar={toggleSidebar} />
       <Main />
     </div>
   );
